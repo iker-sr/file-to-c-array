@@ -8,6 +8,7 @@
 static int get_option(const char *option, const char *arg, const char **value);
 static int add_extension(const char *path, const char *extension, char *out, size_t out_len);
 static int is_valid_ident(const char *ident, int enable_non_ascii);
+static void show_help(const char *prog);
 
 int main(int argc, char **argv) {
     const char *file = NULL;
@@ -16,7 +17,10 @@ int main(int argc, char **argv) {
     const char *variable = NULL;
 
     for (int i = 1; i < argc; i++) {
-        if (get_option("file=", argv[i], &file));
+        if (strcmp("--help", argv[i]) == 0) {
+            show_help(argv[0]);
+            return 0;
+        } else if (get_option("file=", argv[i], &file));
         else if (get_option("header=", argv[i], &header));
         else if (get_option("head=", argv[i], &header));
         else if (get_option("source=", argv[i], &source));
@@ -131,4 +135,18 @@ static int is_valid_ident(const char *ident, int enable_non_ascii) {
     }
 
     return 1;
+}
+
+static void show_help(const char *prog) {
+    const char *help =
+        "Usage: %s [OPTIONS...]\n"
+        "Converts a binary or text file into a C array.\n"
+        "\n"
+        "Options:\n"
+        "  --help                       Show this help.\n"
+        "  file=<path>                  Path to the input file.\n"
+        "  var=<name>, variable=<name>  Name of the generated C array.\n"
+        "  head=<path>, header=<path>   Output header file (optional).\n"
+        "  src=<path>, source=<path>    Output source file (optional).\n";
+    printf(help, prog);
 }
