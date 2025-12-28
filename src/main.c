@@ -51,6 +51,7 @@ int main(int argc, char **argv) {
             printf("Error generating header file path: file path too large\n");
             return 1;
         }
+        printf("Auto generated header path: %s\n", header_gen);
         header = header_gen;
     }
 
@@ -60,6 +61,7 @@ int main(int argc, char **argv) {
             printf("Error generating source file path: file path too large\n");
             return 1;
         }
+        printf("Auto generated source path: %s\n", source_gen);
         source = source_gen;
     }
 
